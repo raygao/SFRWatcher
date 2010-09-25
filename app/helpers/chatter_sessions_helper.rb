@@ -1,0 +1,2 @@
+module ChatterSessionsHelper
+end

@@ -1,0 +1,57 @@
+/* feed comment */
+.feed-comment-pane:after {
+    content:" ";
+    display:block;
+    clear:both;
+}
+.feed-comment-odd {
+    background-color:#00FFFF;
+    margin-left: 10px;
+}
+.feed-comment-even {
+    background-color:#99FF66;
+    margin-left: 10px;
+}
+
+/* feed item*/
+.feed-item-odd {
+    background-color:#FCFFA5;
+    width:80%;
+    padding: 10px;
+    outline-color:red
+}
+.feed-item-odd:after {
+    content:" ";
+    display:block;
+    clear:both;
+}
+.feed-item-even {
+    background-color:#FCFFF5;
+    width:80%;
+    padding: 10px;
+    outline-color:red
+}
+.feed-item-even:after {
+    content:" ";
+    display:block;
+    clear:both;
+}
+
+/* sf object */
+.sf-object-field-even {
+    width: 50%;
+    float: right;
+    padding-bottom: 3px;
+    padding-top: 3px
+}
+.sf-object-field-odd {
+    width: 50%;
+    float: left;
+    padding-bottom: 3px;
+    padding-top: 3px
+}
+.sf-object-edit-pane:after {
+    content:" ";
+    display:block;
+    clear:both;
+}

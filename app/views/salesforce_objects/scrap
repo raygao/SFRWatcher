@@ -1,0 +1,76 @@
+
+    <% sf_keys = @this.attributes.keys%>
+    <% sf_keys_joint = sf_keys.join(", ") %>
+
+    <form action="/Salesforce_Objects/update" method="post">
+      <div class="sf-object-edit-pane" >
+        <repeat with="&sf_keys">
+          <div id="<%=this%>" class="sf-object-field-<%=scope.even_odd%>" align="left">
+            <%
+            data_value = @this[this]
+            data_size = 30
+            unless data_value.nil? || data_value.to_s.size < 1
+              data_size = data_value.to_s.size.to_i + 10
+            end
+          %>
+            <label><%=  this.humanize()%>:</label><input name="&this" type="text" value="#{data_value}" size="#{data_size}"/><br/>
+          </div>
+        </repeat>
+        <input type="hidden" name="oid" value="#{@oid}"/>
+        <input type="hidden" name="otype" value="#{@otype}"/>
+      </div>
+      <br/>
+      <div class="buttons" align="center">
+        <submit label="Save" name="Save"/>
+        <submit label="Cancel" name="Cancel" />
+      </div>
+    </form>
+
+
+--------------------------------------------------------------------------------
+<page>
+  <content:>
+    <%= link_to_remote ( "call axj", {:update => "sf-form-panel", :url => "axj",
+        :loading => "Hobo.showSpinner('Fetching form');",
+        :complete => "Hobo.hideSpinner();"}) %>
+    <hr/>
+    <div part="sf-form-panel" id="sf-form-panel">To be updated</div>
+
+
+    <hr/>
+    <%
+      local_supported_sf_object_types = SalesforceObjectType.find(:all)
+    %>
+
+
+    <div part="ab222" id="ab222">Ab222 To be updated</div>
+
+    <hr/>
+
+    <select name="salesforce_object[object_type]" onchange="jQuery('#ab222').load('axj', 'param')">
+      <repeat with="&local_supported_sf_object_types">
+        <option value="#{this[:id]}" ><%=this[:object_type]%></option>
+      </repeat>
+    </select>
+
+
+  </content:>
+</page>
+
+
+
+
+<script>
+
+  function getform (){
+    new Ajax.Updater('sf-form-panel', 'axj',
+    {asynchronous:true, evalScripts:true,
+      onComplete:function(request){Hobo.hideSpinner();},
+      onLoading:function(request){Hobo.showSpinner('Fetching form');},
+      parameters:'authenticity_token=' + encodeURIComponent('k5kANZuFm0h8bYGr07ZSTWtomFXk/bFMfsspz7aOnRE=')}); return false;
+  }
+
+  function getform2 (target) {
+  Hobo.ajaxRequest("/Salesforce_objects/axj", [target], {update: "sf-form-panel", message: "Fetching form for sf-form-panel" })
+  }
+</script>

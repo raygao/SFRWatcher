@@ -1,0 +1,41 @@
+<page title="Salesforce Object" replace without-live-search>
+
+  <content:>
+    <% unless  @results.blank?  %>
+      <h3>Results:</h3>
+        <table>
+          <tr>
+            <th><b>Name</b></th>
+            <th><b>Chatter tracking</b></th>
+          </tr>
+          <repeat with="&@results">
+            <tr>
+              <td>
+                <a href="#{base_url}/Salesforce_Objects/show/#{this.id}">
+                  <show-name-or-description object="&this"/>
+                </a> &nbsp;&nbsp;&nbsp;&nbsp;
+              </td>
+              <td>
+                <%
+                limit = QUERY_RESULT_LIMIT || 100
+                query_conditions = "parent_id='#{this.id}' and subscriber_id='#{@current_sf_user.id}'"
+                results = Salesforce::EntitySubscription.find(:all, :conditions => [query_conditions], :limit => limit.to_s)
+              %>
+                <% if !results.blank? %>
+                <a href="#"
+                   onclick="jQuery(this).toggleFolloButton(jQuery(this).attr('text'), '#{this.id}', jQuery(this))">Ignore</a>
+                <%else%>
+                <a href="#"
+                   onclick="jQuery(this).toggleFolloButton(jQuery(this).attr('text'), '#{this.id}', jQuery(this))">Observe</a>
+                <%end%>
+              </td>
+            </tr>
+          </repeat>
+        </table>
+    <%else%>
+      <h3>Nothing found</h3>
+    <%end%>
+    <footer-with-timestamp/>
+  </content:>
+
+</page>

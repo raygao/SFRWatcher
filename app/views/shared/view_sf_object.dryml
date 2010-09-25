@@ -1,0 +1,29 @@
+<def tag="view-sf-object" attrs="sfobject, meta-data">
+    <div class="sf-object-view-pane" >
+      <repeat with="&meta_data.fields">
+        <div id="meta_data:#{this.name}" class="sf-object-field-<%=scope.even_odd%>" align="left">
+          <%
+          data_value = sfobject.attributes[this.name.underscore]
+          data_size = 30
+          unless data_value.nil? || data_value.to_s.size < 1
+            data_size = data_value.to_s.size.to_i + 10
+          end
+          input_name = @otype + "[" + this.name.underscore() + "]"
+        %>
+          <% if this.updateable == "true"%>
+            <label style="color:blue" title="#{input_name}"><%=  this.name.underscore.humanize.titleize()%>:</label>
+            <input name="&input_name" type="text" value="#{data_value}" size="#{data_size}"/>
+          <%else%>
+            <label style="color:red" title="#{input_name}"><%=  this.name.underscore.humanize.titleize()%>:</label>
+            <%= data_value %>
+          <%end%>
+          <br/>
+        </div>
+      </repeat>
+    </div>    
+    <div class="buttons" align="center">
+      <hr/>
+      <!--<submit label="Cancel" name="Cancel" />-->
+      <a href="javascript: history.go(-1)" class="button submit-button">Back</a>
+    </div>
+</def>

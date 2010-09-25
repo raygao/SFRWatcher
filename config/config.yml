@@ -1,0 +1,9 @@
+# Salesforce complains, when the user is non system-admin and tries to query
+#   without limit or limit > 1000 for EntitySubscription or NewsFeed objects
+# results in MALFORMED_QUERY: Implementation restriction: EntitySubscription only allows
+#      security evaluation for non-admin users when LIMIT is specified and at most 1000
+QUERY_RESULT_LIMIT: 100
+# Time between session time out, in seconds, 3600 seconds equals 1 hour
+MAX_SESSION_PERIOD: 3600
+#download icon
+DOWNLOAD_ICON: 'download_36x36.png'

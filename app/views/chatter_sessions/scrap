@@ -1,0 +1,31 @@
+
+this.FeedComments.done
+                 .queryLocator
+                 .records [0] [1]
+                         .CommentBody
+                         .CreatedBy. Firstname .LastName .Id .type
+                         .CreatedDate
+                         .Id [0] [1]
+                         .type
+                 .size
+
+this.FeedPost.Body
+             .Attachment (optional)
+             .ContentData (optional)
+             .ContentDescription (optional)
+             .ContentFileName (optional)
+             .ContentType (optional)
+             .ContentSize
+             .CreatedById
+             .CreatedDate
+             .FeedItemId
+             .Id [0] [1]
+             .LinkUrl
+             .ParentId
+             .SystemModStamp
+             .Title
+             .Type
+             .type
+this.FeedTrackedChanges
+this.Id [0] [1]
+this.type

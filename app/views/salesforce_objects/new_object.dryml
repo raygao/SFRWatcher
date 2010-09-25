@@ -1,0 +1,37 @@
+<page>
+  <content:>
+
+    <%
+    local_supported_sf_object_types = SalesforceObjectType.find(:all)
+  %>
+
+    <hr/>
+
+    <select name="salesforce_object[object_type]" onchange="jQuery('#sf-form-panel').load('new_ajax_sf_form', jQuery(this))">
+      <repeat with="&local_supported_sf_object_types">
+        <option value="#{this[:object_type]}" ><%=this[:object_type]%></option>
+      </repeat>
+    </select>
+
+    <div part="sf-form-panel" id="sf-form-panel">To be updated</div>
+
+  </content:>
+</page>
+
+
+
+
+<script>
+
+  function getform (){
+    new Ajax.Updater('sf-form-panel', 'axj',
+    {asynchronous:true, evalScripts:true,
+      onComplete:function(request){Hobo.hideSpinner();},
+      onLoading:function(request){Hobo.showSpinner('Fetching form');},
+      parameters:'authenticity_token=' + encodeURIComponent('k5kANZuFm0h8bYGr07ZSTWtomFXk/bFMfsspz7aOnRE=')}); return false;
+  }
+
+  function getform2 (target) {
+    Hobo.ajaxRequest("/Salesforce_objects/axj", [target], {update: "sf-form-panel", message: "Fetching form for sf-form-panel" })
+  }
+</script>

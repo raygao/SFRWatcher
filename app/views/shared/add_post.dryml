@@ -1,0 +1,51 @@
+<def tag="add-post" attrs="oid, otype">
+  <div class="new_feedpost">
+    <% if oid.nil? || otype.nil? %>
+      <%= "oid & otype cannot be nil" %>
+    <% else %>
+
+      <!--<form action="/Chatter_Sessions/add_post" method="post">-->
+      <form with="&ChatterSession.new" enctype="multipart/form-data">
+        <error-messages param/>
+        <label>New post:</label>
+        <input type="text" name="message" value="Add a new post" size="60"
+               onfocus="checkclear(this)" onblur="checkonblur(this, 'Add a new post')" onkeypress="this._haschanged = true"/> &nbsp; &nbsp;
+        <submit label="Share"/><br/>
+        <field-list fields="photo, link_title, link_url" > <!--see Paperclip plugin-->
+          <photo-label:>
+              Photos/Attachments:
+          </photo-label:>
+          <link_title-label:>Title of the Link:</link_title-label:>
+          <link_title-view:>
+            <input type="text" name="chatter_session[link_title]" id="chatter_session_link_title" style="width:325px;"/>
+          </link_title-view:>
+          <link_url-label:>The URL Link:</link_url-label:>
+          <link_url-view:>
+            <input type="text" name="chatter_session[link_url]" id="chatter_session_link_url" style="width:325px;"/>
+          </link_url-view:>
+
+        </field-list>
+        <input type="hidden" name="oid" value="&oid"/>
+        <input type="hidden" name="otype" value="&otype"/>
+      </form>
+
+
+    <%end%>
+  </div>
+</def>
+
+
+<%  #TODO fix the ctform%>
+
+<def tag="ctform" attrs="oid, otype">
+  <form with="&ChatterSession.new">
+    <error-messages param/>
+    <field-list fields="session, photo_file_name" param/>
+    <input type="hidden" name="oid" value="&oid"/>
+    <input type="hidden" name="otype" value="&otype"/>
+    <div>
+      <submit label="Post now" param/>
+    </div>
+  </form>
+</def>
+

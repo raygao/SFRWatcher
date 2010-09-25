@@ -1,0 +1,39 @@
+<page title="Salesforce Object" replace without-live-search>
+
+  <body:/>
+  <content:>
+    <header class="content-header">
+      <h2>View Salesforce Objects</h2>
+      <%if current_user.administrator?%>
+        <hr/>
+        or <a href="#{base_url}/Salesforce_Objects/summary">Summary - Showing Object Relationships</a>
+      <%end%>
+    </header>
+
+    <section-group class="page-content">
+      <aside id="content-body">
+        <h3>By Type:</h3>
+        <%
+          local_supported_sf_object_types = SalesforceObjectType.find(:all)
+        %>
+        <ul>
+          <repeat with="&local_supported_sf_object_types">
+            <li><a href="#{base_url}/Salesforce_Objects/search?salesforce_object[object_type]=#{this[:object_type]}"><%=this[:object_type]%></a></li>
+          </repeat>
+        </ul>
+      </aside>
+
+      <section id="search-pane" with-flash-messages>
+        <h3>By Search:</h3>
+        <basic-search-sf-object-form/>
+        <br/>
+        or use <a href="#{base_url}/Salesforce_Objects/advanced_search_form">Advanced Search</a>
+        <hr/>
+        or create <a href="#{base_url}/Salesforce_Objects/new_object">a new Salesforce object</a>
+
+      </section>
+    </section-group>
+    <footer-with-timestamp/>
+  </content:>
+
+</page>

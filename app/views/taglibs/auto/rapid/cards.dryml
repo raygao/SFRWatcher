@@ -1,0 +1,93 @@
+<!-- AUTOMATICALLY GENERATED FILE - DO NOT EDIT -->
+
+<def tag="card" for="ChatterSession">
+  <card class="chatter-session" param="default" merge>
+    <header: param>
+      <h4 param="heading"><a><name/></a></h4>
+    </header:>
+    <body: param>
+      <a:owner param="creator-link"/>
+    </body:>
+  </card>
+</def>
+
+<def tag="card" for="Filter">
+  <card class="filter" param="default" merge>
+    <header: param>
+      <h4 param="heading"><a><name/></a></h4>
+    </header:>
+    <body: param>
+      <a:owner param="creator-link"/>
+      <ht key="words.collection.count" count="&this.words.size">
+         <count:words param/>
+      </ht>
+    </body:>
+  </card>
+</def>
+
+<def tag="card" for="Rule">
+  <card class="rule" param="default" merge>
+    <header: param>
+      <h4 param="heading"><a><name/></a></h4>
+    </header:>
+    <body: param>
+      <a:owner param="creator-link"/>
+      <ht key="filters.collection.count" count="&this.filters.size">
+         <count:filters param/>
+      </ht>
+    </body:>
+  </card>
+</def>
+
+<def tag="card" for="SalesforceObject">
+  <card class="salesforce-object" param="default" merge>
+    <header: param>
+      <h4 param="heading"><a><name/></a></h4>
+    </header:>
+  </card>
+</def>
+
+<def tag="card" for="SalesforceObjectType">
+  <card class="salesforce-object-type" param="default" merge>
+    <header: param>
+      <h4 param="heading"><a><name/></a></h4>
+    </header:>
+  </card>
+</def>
+
+<def tag="card" for="Task">
+  <card class="task" param="default" merge>
+    <header: param>
+      <h4 param="heading"><a><name/></a></h4>
+    </header:>
+    <body: param>
+      <a:owner param="creator-link"/>
+    </body:>
+  </card>
+</def>
+
+<def tag="card" for="User">
+  <card class="user" param="default" merge>
+    <header: param>
+      <h4 param="heading"><a><name/></a></h4>
+    </header:>
+  </card>
+</def>
+
+<def tag="card" for="Word">
+  <card class="word" param="default" merge>
+    <header: param>
+      <h4 param="heading"><name/></h4>
+      <div param="actions">
+        <a action="edit" if="&can_edit?" param="edit-link">
+          <ht key="words.actions.edit">Edit</ht>
+        </a>
+      </div>
+    </header:>
+    <body: param>
+      <view:description param="description"/>
+      <a:owner param="creator-link"/>
+    </body:>
+  </card>
+</def>
+

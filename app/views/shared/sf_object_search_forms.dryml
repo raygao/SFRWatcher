@@ -1,0 +1,22 @@
+<def tag="basic-search-sf-object-form">
+  <form with="&SalesforceObject.new" action="/Salesforce_Objects/search">
+    <error-messages param/>
+    <field-list fields="salesforce_object_type, name" param>
+
+      <salesforce_object_type-view:>
+        <%
+        local_supported_sf_object_types = SalesforceObjectType.find(:all)
+        %>
+        <select name="salesforce_object[object_type]">
+          <repeat with="&local_supported_sf_object_types">
+            <option value="#{this[:object_type]}" ><%=this[:object_type]%></option>
+          </repeat>
+        </select>
+      </salesforce_object_type-view:>
+
+    </field-list>
+    <div>
+      <submit label="Search" param/>
+    </div>
+  </form>
+</def>

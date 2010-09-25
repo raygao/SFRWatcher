@@ -1,0 +1,34 @@
+<chatter-entityfeed-page>
+      <add-post oid="&@current_sf_user.id" otype="user"/>
+      <% unless @entity_results.blank? %>
+        <b><i>Your currently subscribed to:</i></b><br/>
+        <table style="border-spacing: 15px;">
+          <tr>
+            <th>Name</th><th>Type</th><th>Feeds</th>
+          </tr>
+          <%for entity_row in @entity_results%>
+            <tr>
+              <td width ="10%">
+                <span id="account:#{entity_row['type']}">
+                  <a href="/Chatter_Sessions/show_object/#{entity_row['id']}"><%= entity_row['name']%></a></span>
+              </td>
+              <td width ="10%">
+                <%= entity_row['type']%>
+              </td>
+
+              <td width ="80%">
+                <% begin %>
+                  <% unless entity_row['feeds'].blank? %>
+                <feeds-collection feeds="&entity_row['feeds']"/>
+              <%end%>
+            <% rescue Exception => ex_in_display%>
+              <%= ex_in_display %>: <%= entity_row['name'] %>:<%= entity_row['id']%>
+              <%= ex_in_display.backtrace %>
+            <% end %>
+            </td>
+            </tr>
+          <%end%>
+        </table>
+      <%end%>
+
+</chatter-entityfeed-page>

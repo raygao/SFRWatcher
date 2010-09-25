@@ -1,0 +1,14 @@
+#remember to put the following in 'test_helper.rb' file or move salesforce files into the salesforce folder
+#fixtures :salesforce_accounts
+#set_fixture_class :salesforce_accounts => Salesforce::Account
+
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+# one:
+#   column: value
+#
+# two:
+#   column: value
+
+#one:
+#    id: 1

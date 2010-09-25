@@ -1,0 +1,119 @@
+<!-- AUTOMATICALLY GENERATED FILE - DO NOT EDIT -->
+
+<def tag="form" for="ChatterSession">
+  <form merge param="default">
+    <error-messages param/>
+    <field-list fields="link_url, link_title, session, photo_file_name, photo_content_type, photo_file_size, photo_updated_at, owner" param/>
+    <div param="actions">
+      <submit label="#{ht 'chatter_sessions.actions.save', :default=>['Save']}" param/><or-cancel param="cancel"/>
+    </div>
+  </form>
+</def>
+
+
+
+<def tag="form" for="Filter">
+  <form merge param="default">
+    <error-messages param/>
+    <field-list fields="name, description, rule" param/>
+    <div param="actions">
+      <submit label="#{ht 'filters.actions.save', :default=>['Save']}" param/><or-cancel param="cancel"/>
+    </div>
+  </form>
+</def>
+
+
+
+<def tag="form" for="Rule">
+  <form merge param="default">
+    <error-messages param/>
+    <field-list fields="name, description, filters, tasks" param/>
+    <div param="actions">
+      <submit label="#{ht 'rules.actions.save', :default=>['Save']}" param/><or-cancel param="cancel"/>
+    </div>
+  </form>
+</def>
+
+
+
+<def tag="form" for="SalesforceObjectType">
+  <form merge param="default">
+    <error-messages param/>
+    <field-list fields="object_type" param/>
+    <div param="actions">
+      <submit label="#{ht 'salesforce_object_types.actions.save', :default=>['Save']}" param/><or-cancel param="cancel"/>
+    </div>
+  </form>
+</def>
+
+
+
+<def tag="form" for="SalesforceObject">
+  <form merge param="default">
+    <error-messages param/>
+    <field-list fields="name, salesforce_object_type" param/>
+    <div param="actions">
+      <submit label="#{ht 'salesforce_objects.actions.save', :default=>['Save']}" param/><or-cancel param="cancel"/>
+    </div>
+  </form>
+</def>
+
+
+
+<def tag="form" for="Task">
+  <form merge param="default">
+    <error-messages param/>
+    <field-list fields="name, description, rule" param/>
+    <div param="actions">
+      <submit label="#{ht 'tasks.actions.save', :default=>['Save']}" param/><or-cancel param="cancel"/>
+    </div>
+  </form>
+</def>
+
+
+
+<def tag="form" for="User">
+  <form merge param="default">
+    <error-messages param/>
+    <field-list fields="name, salesforce_username, salesforce_password, salesforce_secret_token, chatter_load_attachment, email_address, administrator, state" param/>
+    <div param="actions">
+      <submit label="#{ht 'users.actions.save', :default=>['Save']}" param/><or-cancel param="cancel"/>
+    </div>
+  </form>
+</def>
+
+<def tag="signup-form" polymorphic/>
+<def tag="signup-form" for="User">
+  <form lifecycle="signup" merge param="default">
+    <error-messages param/>
+    <field-list fields="name, email_address, password, password_confirmation, salesforce_username, salesforce_password, salesforce_secret_token, chatter_load_attachment" param/>
+    <div param="actions">
+      <submit label="#{ht 'users.actions.signup', :default=>['Signup']}" param/><or-cancel param="cancel"/>
+    </div>
+  </form>
+</def>
+
+<def tag="reset-password-form" polymorphic/>
+<def tag="reset-password-form" for="User">
+  <form lifecycle="reset_password" merge param="default">
+    <error-messages param/>
+    <input type="hidden" name="key" value="&this.lifecycle.provided_key" if="&this.lifecycle.provided_key"/>
+    <field-list fields="password, password_confirmation" param/>
+    <div param="actions">
+      <submit label="#{ht 'users.actions.reset_password', :default=>['Reset Password']}" param/><or-cancel param="cancel"/>
+    </div>
+  </form>
+</def>
+
+<def tag="form" for="Word">
+  <form merge param="default">
+    <error-messages param/>
+    <field-list fields="name, description" param/>
+    <div param="actions">
+      <submit label="#{ht 'words.actions.save', :default=>['Save']}" param/><or-cancel param="cancel"/>
+    </div>
+  </form>
+</def>
+
+
+

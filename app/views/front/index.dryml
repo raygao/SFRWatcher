@@ -1,0 +1,36 @@
+<page title="Home">
+
+  <body: class="front-page"/>
+
+  <content:>
+    <header class="content-header">
+      <h1>Welcome to <app-name/></h1>
+      <section class="welcome-message">
+
+
+        <% if User.count == 0 %>
+          <h3 style="margin-top: 20px;">There are no user accounts - please provide the details of the site administrator</h3>
+          <do with="&User.new"><% this.exempt_from_edit_checks = true %>
+            <signup-form/>
+          </do>
+        <% elsif current_user.guest? %>
+          <h3 style="margin-top: 20px;">Dear guest, please create an account.</h3>
+          <do with="&User.new"><% this.exempt_from_edit_checks = true %>
+            <signup-form/>
+          </do>
+        <% end %>
+          
+      </section>
+    </header>
+
+    <!--
+    <section with="&current_user" class="content-body" if="&logged_in?">
+      <h3><ht key="rules.collection.front_title">Your Existing Rules</ht></h3>
+      <collection:rules><card without-creator-link/></collection>
+      <a:rules action="new">New Rule</a>
+
+    </section>
+    -->
+  </content:>
+
+</page>

@@ -1,0 +1,45 @@
+<!-- show feed comments associated with a feed post-->
+<def tag="show-feed-comments" attrs="comments">  
+  <% if !comments.nil? %>
+    <%  if comments.records.is_a?(Array)%>
+
+      <!-- multiple comments-->
+      <repeat with="&comments.records" >
+        <% unless this.blank? && !this.respond_to?('CommentBody') %>
+          <show-single-feed-comment feedcomment="&this"/>
+        <%end%>
+      </repeat>
+    <% elsif comments.records.is_a?(Hash) %>
+      <!-- set 'this' context to comments.records -->
+      <% this = comments.records %>
+      <!-- single comment -->
+      <show-single-feed-comment feedcomment="&this"/>
+    <%end%>
+  <%end%>
+</def>
+
+<!-- show a single feed comment -->
+<def tag="show-single-feed-comment" attrs="feedcomment">
+  <div class="feed-comment-#{feedcomment.Id[0]}">
+    <div class="comment-creator-image" style="float:left; width:30px; margin-left: 10px;">
+      <a href="/Chatter_Sessions/show_object/#{feedcomment.CreatedBy.Id[0]}">
+        <user-avatar userid="&feedcomment.CreatedBy.Id[0]" size="small"/>
+      </a>
+    </div>
+    <div id="comment-<%=feedcomment.Id[0]%>" class="feed-comment-<%=scope.even_odd%>">
+      <span id="comment-creator-name">
+        <i>
+          <a href="/Chatter_Sessions/show_object/#{feedcomment.CreatedBy.Id[0]}" size="small">
+            <%= feedcomment.CreatedBy.FirstName + " " + feedcomment.CreatedBy.LastName%>
+          </a>
+        </i>
+        -&gt;
+      </span>
+      <parse-time time="&feedcomment.CreatedDate"/>
+      <% if feedcomment.CreatedBy.Id[0] == @current_sf_user.id %>
+        &nbsp;&nbsp;&nbsp;<show-delete-link item="&feedcomment"/><br/>
+      <%end%>
+      <div id="comment-body:<%= feedcomment.Id[0] %>"><%= h feedcomment.CommentBody %></div>
+    </div>
+  </div>
+</def>

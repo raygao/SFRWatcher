@@ -1,0 +1,53 @@
+<def tag="show-entity-condensed" attrs="objectlist">
+  <% unless objectlist.blank? %>
+    <h5><%= objectlist.first['type'] %> </h5>
+    <ul>
+    <%for object in objectlist%>
+      <li id="account:#{object}"><a href="/Chatter_Sessions/show_object/#{object['id']}?type=#{object['type']}"><%= object['name']%></a></li>
+    <%end%>
+    </ul>
+  <%end%>
+</def>
+
+<!-- Tag fragments to be used in the Page Defintions -->
+<def tag="sf-object-name">
+  <b param="default">The name of the Salesforce User</b>
+</def>
+
+<def alias-of="sf-object-name" tag="sf-user-name"/>
+
+<def tag="current-time">
+  <span param="default"><i><%=Time.now.strftime("%Y-%m-%d %H:%M:%S")%></i></span>
+</def>
+
+<!-- TODO User Profile Image requires Browser logged into Salesforce -->
+<!-- need to cache the that file on my server -->
+<def tag="user-avatar" attrs="userid, size">
+  <% if size.to_s == "small" %>
+    <img src="https://na7.salesforce.com/userphoto?id=#{userid}&v=1&s=T" width='25px' height='25px' style="vertical-align: top"></img>
+  <% else %>
+    <img src="https://na7.salesforce.com/userphoto?id=#{userid}&v=1&s=T" style="vertical-align: top"></img>
+  <% end %>
+</def>
+
+<def tag="parse-time" attrs="time">
+  <% if Date.parse(time) == Date.today %>
+    <span id="time"><%= DateTime.parse(time).strftime("%H:%M:%S") %></span>
+  <% else %>
+    <span id="time"><%= DateTime.parse(time).strftime("%Y-%m-%d") %></span>
+  <% end %>
+</def>
+
+
+<def tag="footer-with-timestamp">
+  <hr/>
+  This page was generated at: <current-time/>
+</def>
+
+<def tag="show-name-or-description" attrs="object">
+  <% if !object[:name].nil? %>
+    <%= object [:name]%>
+  <%  else %>
+    <%=  object[:description]%>
+  <% end %>
+</def>

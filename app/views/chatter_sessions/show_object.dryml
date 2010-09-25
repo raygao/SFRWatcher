@@ -1,0 +1,5 @@
+<show-object-page>
+  <main-content:>
+    <show-sf-object otype="&@otype" oid="&@oid"/>
+  </main-content:>
+</show-object-page>

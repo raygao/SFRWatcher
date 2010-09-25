@@ -1,0 +1,42 @@
+<index-of-chatter-feedposts-page>
+  <yourname:>
+    <h3>Hello
+      <sf-user-name>
+        <% unless @first_name.nil? %>
+          <%= @first_name %> <%= @last_name %>
+        <% end %>
+      </sf-user-name>:
+    </h3>
+  </yourname:>
+  <aside1:>
+    <% unless current_user.guest? %>
+    <h4><i>You are following:</i></h4>
+      <% if !@entities_following.blank? %>
+        <% entity_type_tracked = @entities_following.keys %>
+        <% entity_type_tracked.each do |et|%>
+          <% item_collection = @entities_following[et] %>
+          <show-entity-condensed objectlist="&item_collection"/>
+        <% end %>
+      <%end%>
+      <hr/>
+      <h4><i>You are being followed by:</i></h4>
+      <% if !@entities_following_me.blank? %>
+        <% entity_type_tracked = @entities_following_me.keys %>
+        <% entity_type_tracked.each do |et|%>
+          <% item_collection = @entities_following_me[et] %>
+          <show-entity-condensed objectlist="&item_collection"/>
+        <% end %>
+      <%end%>
+    <% end %>
+  </aside1:>
+  <main-content:>
+    <% unless @current_sf_user.nil? %>
+      Your news feed:
+      <br/>
+      <add-post oid="&@current_sf_user.id" otype="user"/>
+
+      <feeds-collection feeds="&@feeds"/>
+
+    <% end %>
+  </main-content:>
+</index-of-chatter-feedposts-page>

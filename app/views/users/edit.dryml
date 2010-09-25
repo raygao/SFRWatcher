@@ -1,0 +1,15 @@
+<edit-page>
+  <form:>
+    <field-list fields="name, email_address, salesforce_username, salesforce_password, salesforce_secret_token, chatter_load_attachment, administrator">
+      <before-salesforce_username-label:>
+        <tr><td colspan="2"><%= "#"*50 %></td></tr>
+      </before-salesforce_username-label:>
+      <after-chatter_load_attachment-view:>
+        <tr><td colspan="2"><%= "#"*50 %></td></tr>
+      </after-chatter_load_attachment-view:>
+    </field-list>
+    <div id="actions" align="center">
+      <submit label="#{ht 'users.actions.save', :default=>['Save']}"/><or-cancel/>
+    </div>
+  </form:>
+</edit-page>

@@ -1,0 +1,31 @@
+<def tag="add-comment" attrs="targetid">
+  <div class="add_comment_pane" id="#{targetid}" style="display: none;">
+    <% if targetid.nil? %>
+      <%= "target-id cannot be nil" %>
+    <% else %>
+
+    <form action="/Chatter_Sessions/add_comment" method="post"
+          onsubmit="
+            jQuery(this).postComment('/Chatter_Sessions/add_comment', jQuery(this),
+            '#new-comments-#{this[:Id][0]}'); return false;">
+        <label>Add Comment:</label>
+        <input type="text" name="comment_body" value="Add a comment" size="80"
+               onfocus="checkclear(this)" onblur="checkonblur(this, 'Add a new comment')" onkeypress="this._haschanged = true"/> &nbsp; &nbsp;
+
+        <input type="hidden" name="targetid" value="&targetid"/>
+
+        <submit label="Post now"/>
+      </form>
+
+    <%end%>
+  </div>
+
+</def>
+
+<def tag="add-comment-control" attrs="targetid">
+  <span id="add_comment_control_#{targetid}">
+    <a href="#" onclick="jQuery(this).toggleComment('##{targetid}', this); event.preventDefault();">Add Comment</a>
+  </span>
+</def>
+
+

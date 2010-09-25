@@ -1,0 +1,169 @@
+<include src="rapid" plugin="hobo"/>
+
+<include src="taglibs/auto/rapid/cards"/>
+<include src="taglibs/auto/rapid/pages"/>
+<include src="taglibs/auto/rapid/forms"/>
+
+<set-theme name="clean"/>
+
+<def tag="app-name">Parl8-vo.us Salesforce Watcher</def>
+
+<extend tag="page">
+  <old-page merge>
+    <!-- Enable CKEitor WYSIWYG inline editor -->
+    <after-scripts:>
+      <javascript name="ckeditor/ckeditor"/> 
+      <javascript name="load_ckeditor"/>
+      <javascript name="parl8-vous"/>
+    </after-scripts:>
+    <!-- enable JQuery plugin for Hobo-->
+    <custom-scripts:>
+      <hjq-assets/>
+      </custom-scripts>
+      <!-- include parl8-vous stylesheet, see /public/styles -->
+      <append-stylesheets:>
+        <stylesheet name="parl8-vous.css"/>
+      </append-stylesheets:>
+  </old-page>
+</extend>
+
+<!-- Customized card for Rule, Filter, Task -->
+
+<extend tag="card" for="Rule">
+  <old-card replace>
+    <body: param>
+      <!-- # of Filters -->
+      <ht key="filters.collection.count" count="&this.filters.size">
+        <count:filters param/>
+      </ht>,
+      <!-- # of Activities -->
+      <ht key="tasks.collection.count" count="&this.tasks.size">
+        <count:tasks param/>
+      </ht>
+    </body:>
+  </old-card>
+</extend>
+
+<extend tag="card" for="Filter">
+  <old-card replace>
+    <body: param>
+      <!-- # of Words -->
+      <ht key="words.collection.count" count="&this.words.size">
+        <count:words param/>
+      </ht>
+    </body:>
+  </old-card>
+</extend>
+
+<extend tag="card" for="Task">
+  <old-card replace>
+    <body: param>
+    </body:>
+  </old-card>
+</extend>
+
+<!-- Navigation tabs -->
+<def tag="main-nav">
+  <navigation class="main-nav" merge-attrs>
+    <nav-item href="#{base_url}/">Home</nav-item>
+    <nav-item href="#{base_url}/Chatter_Sessions">Chatter NewsFeed</nav-item>
+    <nav-item href="#{base_url}/Chatter_Sessions/entities">Chatter EntityFeed</nav-item>
+    <nav-item href="#{base_url}/Salesforce_Objects">Salesforce Object</nav-item>
+    <% if current_user.administrator? %>
+      <nav-item href="#{base_url}/Users">User Admin</nav-item>
+    <%end%>
+  </navigation>
+</def>
+
+<!-- load tag libs -->
+<include src="paperclip" plugin="paperclip_with_hobo"/>
+<include src="hobo-jquery" plugin="hobo-jquery" />
+
+<include src="shared/feed_collection"/>
+<include src="shared/add_post"/>
+<include src="shared/add_comment"/>
+<include src="shared/misc"/>
+<include src="shared/show_sf_object"/>
+<include src="shared/edit_sf_object_form"/>
+<include src="shared/view_sf_object"/>
+<include src="shared/sf_object_search_forms"/>
+<include src="shared/show_feed_comments"/>
+
+
+<!-- Actual Page Definitions -->
+<!-- for fragments see 'shared' directory -->
+<def tag="parl8-vous-base-page">
+  <page title="#{ht 'something', :default=>['Parl8-vous-base-page'] }" replace without-live-search >
+    <content: replace >
+      <section-group class="page-content">
+        <section param="default" with-flash-messages/>
+      </section-group>
+      <footer-with-timestamp/>
+    </content:>
+  </page>
+</def>
+
+<def tag="input" for="Paperclip::Attachment">
+  <%= file_field_tag param_name_for_this, attributes %>
+</def>
+
+<def tag="chatter-entityfeed-page">
+  <page title="Chatter EntityFeed" replace without-live-search >
+    <content: replace >
+      <section-group class="page-content">
+        <section param="default" with-flash-messages/>
+      </section-group>
+      <footer-with-timestamp/>
+    </content:>
+  </page>
+</def>
+
+<def tag="index-of-chatter-feedposts-page">
+  <page title="Chatter NewsFeed" replace without-live-search >
+    <content: replace >
+      <header: class="content-header" param="yourname">
+        yourname
+      </header:>
+      <section-group class="page-content">
+        <aside param="aside1"/>
+        <section param="main-content" with-flash-messages/>
+      </section-group>
+      <footer-with-timestamp/>
+    </content:>
+  </page>
+</def>
+
+<def tag="show-object-page" >
+  <page title="Chatter Show Object" replace without-live-search >
+    <content: replace >
+      <section-group class="page-content">
+        <section param="main-content" with-flash-messages>
+          Display information about a Salesforce object with a OID and Otype
+        </section>
+      </section-group>
+      <footer-with-timestamp/>
+    </content:>
+  </page>
+</def>
+
+
+<!-- miscalleneous -->
+<extend tag="signup-form" for="User" with-flash-messages>
+  <error-messages param/>
+  <old-signup-form merge>
+    <field-list fields="name, email_address, password, password_confirmation, salesforce_username, salesforce_password, salesforce_secret_token, chatter_load_attachment" param>
+      <before-salesforce_username-label:>
+        <tr><td colspan="2"><hr/></td></tr>
+      </before-salesforce_username-label:>
+      <chatter_load_attachment-view:>
+        <input type="checkbox" value="1" name="user[chatter_load_attachment]"
+               class="chatter-load-attachment-tag boolean user-chatter-load-attachment"
+               id="user_chatter_load_attachment"
+               checked="true"/>
+      </chatter_load_attachment-view:>
+    </field-list>
+    <div id="actions" align="center">
+      <submit label="#{ht 'users.actions.save', :default=>['Save']}"/><or-cancel/>
+    </div>
+  </old-signup-form>
+</extend>

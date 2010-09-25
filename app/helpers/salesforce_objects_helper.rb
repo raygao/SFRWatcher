@@ -1,0 +1,2 @@
+module SalesforceObjectsHelper
+end

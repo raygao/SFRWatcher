@@ -1,0 +1,16 @@
+<page title="Salesforcce Object Detail" without-live-search>
+  <content:>
+    <p>Displaying information for <b><show-name-or-description object="&this"/></b> of type: <b><%= @otype %></b> </p>
+    <br/>
+
+    <% if @editable == true %>
+      <edit-sf-object-form sfobject="&@sf_object" meta-data = "&@meta_attributes"/>
+    <% else %>
+      <h4>You do not have permission to edit this record.</h4><br/>
+      <view-sf-object sfobject="&@sf_object" meta-data = "&@meta_attributes"/>
+    <% end %>
+    <hr/>
+    This page was generated at:
+    <current-time/>
+  </content:>
+</page>

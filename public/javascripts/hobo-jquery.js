@@ -1,0 +1,1 @@
+../../vendor/plugins/hobo-jquery/public/javascripts/hobo-jquery.js

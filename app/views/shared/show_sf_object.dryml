@@ -1,0 +1,35 @@
+<def tag="show-sf-object" attrs="otype, oid">
+  <% unless @sf_object.nil? %>
+    News Feed on <sf-object-name>
+      <% unless @sf_object.name.nil? %>
+        <%= @sf_object.name %>
+      <% end %>
+    </sf-object-name>
+    <a href="#{url_for(:controller => 'Salesforce_Objects', :action => 'show', :id=> oid)}" class="button submit-button">
+      show object detail
+    </a>
+    &nbsp;&nbsp;
+
+    <%
+    limit = QUERY_RESULT_LIMIT || 100
+    query_conditions = "parent_id='#{oid}' and subscriber_id='#{@current_sf_user.id}'"
+    results = Salesforce::EntitySubscription.find(:all, :conditions => [query_conditions], :limit => limit.to_s)
+  %>
+    <% if !results.blank? %>
+      <a href="#" class="button submit-button"
+         onclick="jQuery(this).toggleFolloButton(jQuery(this).attr('text'), '#{oid}', jQuery(this))">Ignore</a>
+       <%else%>
+      <a href="#" class="button submit-button"
+         onclick="jQuery(this).toggleFolloButton(jQuery(this).attr('text'), '#{oid}', jQuery(this))">Observe</a>
+       <%end%>
+
+    <br/>
+
+    <add-post oid="&oid" otype="&otype"/>
+
+    <feeds-collection feeds="&@feeds"/>
+
+  <% end %>
+</def>
+
+

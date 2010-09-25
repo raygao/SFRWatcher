@@ -1,0 +1,138 @@
+<!-- contains the feed collection -->
+<def tag="feeds-collection" attrs="feeds">
+  <div style="width:98%">
+    <repeat with="&feeds">
+      <% unless this.blank? %>
+        <div id ="<%=this.id%>" class="feed-item-<%=scope.even_odd%>" >
+          <div class="creator-image" style="float:left; width:80px;">
+            <a href="/Chatter_Sessions/show_object/#{this.CreatedBy.Id[0]}">
+              <user-avatar userid="&this.CreatedBy.Id[0]" size="large"/>
+            </a>
+          </div>
+          <div class="content-pane" style="position:relative;margin-left:80px;">
+            <i>
+              <a href="/Chatter_Sessions/show_object/#{this.CreatedBy.Id[0]}">
+                <%= h this.CreatedBy.Name %>
+              </a>
+              <show-receiver feed="&this"/>
+              -&gt;
+            </i>
+            <parse-time time="&this.CreatedDate"/>
+            <% if this.CreatedBy.Id[0] == @current_sf_user.id %>
+              &nbsp;&nbsp;&nbsp;<show-delete-link item="&this"/>
+              &nbsp;&nbsp;&nbsp;<add-comment-control targetid="&this.Id[0]"/>
+              <br/>
+            <%else%>
+              &nbsp;&nbsp;&nbsp;<add-comment-control targetid="&this.Id[0]"/>
+            <%end%>
+
+            <% unless this[:Type] == "TrackedChange"%>
+              <!-- show body of feedpost -->
+              <show-feed-body feedpost="&this.FeedPost"/>
+
+              <!-- If this is a LinkPost, show Link -->
+              <% if !this.FeedPost.LinkUrl.nil? %>
+                <show-link feedpost="&this.FeedPost"/>
+              <%end%>
+              <!-- If there is attachment, show it -->
+              <% if !this.FeedPost.Attachment.nil? %>
+                <show-attachment feedpost="&this.FeedPost"/>
+              <%end%>
+
+            <% else %>
+              <!-- TrackedChange does not have FeedPost. It is an exception. -->
+              <show-tracked-change trackedchanges="&this.FeedTrackedChanges"/>
+            <%end%>
+
+            <!-- feed comments section -->
+            <i>Comments:</i>
+            <% comments = this.FeedComments %>
+            <% if !comments.nil? %>
+              <div id="feed-comment-pane">
+                <show-feed-comments comments="&comments"/>
+              </div>
+            <%end%>
+            <div id="new-comments-#{this[:Id][0]}"><!--New comments goes before here--></div>
+
+            <add-comment targetid="&this.Id[0]"/>
+          </div>
+        </div>
+      <%end%>
+    </repeat>
+  </div>
+</def>
+
+<!-- show tracked change for a feedpost -->
+<def tag="show-tracked-change" attrs="trackedchanges">
+  <div class="feed-tracked-change">
+    <% if trackedchanges.records.is_a?(Hash) %>
+      <% unless trackedchanges.records.FieldName.upcase == "CREATED" %>
+        changed <i><%= trackedchanges.records.FieldName.to_s %></i>
+        <%if !trackedchanges.records.OldValue.nil? %>
+          from <i><%= trackedchanges.records.OldValue.to_s %></i>
+        <%end%>
+        to <i><%= trackedchanges.records.NewValue.to_s %></i>
+      <% else %>
+        was created.
+      <%end%>
+    <% else %>
+      <repeat with="&trackedchanges.records">
+        <% unless this.FieldName.upcase == "CREATED" %>
+          changed <i><%= this.FieldName.to_s %></i>
+          <%if !this.OldValue.nil? %>
+            from <i><%= this.OldValue.to_s %></i>
+          <%end%>
+          to <i><%= this.NewValue.to_s %></i><br/>
+        <% else %>
+          was created.
+        <%end%>
+      </repeat>
+    <% end %>
+  </div>
+</def>
+
+<!-- who is the receiver of the feedpost -->
+<def tag="show-receiver" attrs="feed">
+  <!-- if the receiver is not same person who post the feed -->
+  <% unless feed.FeedPost.nil? %>
+    <% if feed.FeedPost.ParentId.to_s!= feed.CreatedBy.Id[0].to_s && determine_sf_object_type(feed.FeedPost.ParentId) == "User"%>
+      <% target_user = Salesforce::User.find_by_id(feed[:FeedPost][:ParentId])  %>
+      to <a href="/Chatter_Sessions/show_object/#{target_user.id}"> <%= target_user.name%></a>
+    <%end%>
+  <%end%>
+</def>
+
+<!-- show delete link for both feedposts and comments -->
+<def tag="show-delete-link" attrs="item">
+  <span id="delete-link"><a href="/Chatter_Sessions/delete_item/#{item[:Id][0]}?object_type=#{item[:type]}"> Delete </a></span>
+</def>
+
+<!-- translate feed post into HTML text -->
+<def tag="show-feed-body" attrs="feedpost">
+  <div class="feed-body">
+    <%= h feedpost.Body %>
+  </div>
+</def>
+
+<!-- build an HTML link -->
+<def tag="show-link" attrs="feedpost">
+  <div class="feed-link">
+    <a href="&feedpost.LinkUrl" target="_blank"><%= feedpost.Title %></a>
+  </div>
+</def>
+
+<!-- show a feedpost's attachment (image & file) -->
+<def tag="show-attachment" attrs="feedpost">
+  <% if !feedpost.Attachment.nil? %>
+    <div id ="feed-image-<%=feedpost.id%>" class="feed-image">
+      <% if feedpost.ContentType.to_s.match('image') %>
+        <img src="&feedpost.Attachment"/><br/>
+      <% else %>
+        <a href="#{feedpost.Attachment}">
+          <%= image_tag(DOWNLOAD_ICON, {:title => "Download #{feedpost.ContentFileName}", :alt => "Download #{feedpost.ContentFileName}", :style => "vertical-align: top"})%>
+          Download <b><%= feedpost.ContentFileName%></b>
+        </a>
+      <% end %>
+    </div>
+  <%end%>
+</def>
