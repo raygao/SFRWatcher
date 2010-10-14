@@ -75,7 +75,7 @@ module ActiveSalesforce
           # track this { key => request } to avoid duplication in the YAML
           @recorded_responses[key] = true
           
-          YAML.dump({ key, response }, @recording_source)
+          YAML.dump({ key => response }, @recording_source)
         end
       else
         response = @recorded_responses[key]
